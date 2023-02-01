@@ -46,6 +46,7 @@ if __name__=="__main__":
         print(cmd)
 
     lines = list()
+    lines.append("set Prompt %bld%blu[%redmsf6%blu] %cya%T %blu(%grnJobs:%whi%J %yelAgents:%whi%S%blu)%whi") # Color prompt (can be omitted)
     lines.append("use multi/handler")
     lines.append(f"set payload {payload}")
     lines.append(f"setg LHOST {args.lhost}")
